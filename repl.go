@@ -7,36 +7,36 @@ import (
 	"strings"
 )
 
-type cliCommand struct {
-	name string
-	description string
-	callback func() error
-}
-
-// Define the command functions
-func commandHelp() error {
-	fmt.Println("Help menu")
-	return nil
-}
-
-func commandExit() error {
-	fmt.Println("Exiting...")
-	return nil
-}
-
-
 func startRepl() {
 	newScanner := bufio.NewScanner(os.Stdin)
-	
+
 	for {
 		fmt.Print(" >")
 
 		newScanner.Scan()
 		text := newScanner.Text()
 
-		fmt.Println("You entered:", text)
-		
+		cleaned := cleanInput(text)
+		if len(cleaned) == 0 {
+			continue
+		}
+		command := cleaned[0]
+
+		switch command {
+		case "exit":
+			os.Exit(0)
+		case "help":
+			fmt.Println("Welcome to the Pokedex!")
+			fmt.Println("=====================================")
+			fmt.Println("Available commands:")
+			fmt.Println("exit - exit the program")
+			fmt.Println("help - prints the available commands")
+		default:
+			fmt.Println("Unknown command:", command)
+		}
+
 	}
+
 }
 
 func cleanInput(str string) []string {
