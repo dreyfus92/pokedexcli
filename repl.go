@@ -11,32 +11,50 @@ func startRepl() {
 	newScanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		fmt.Print(" >")
-
+		fmt.Print("Pokedex > ")
 		newScanner.Scan()
-		text := newScanner.Text()
 
-		cleaned := cleanInput(text)
-		if len(cleaned) == 0 {
+		words := cleanInput(newScanner.Text())
+		if len(words) == 0 {
 			continue
 		}
-		command := cleaned[0]
 
-		switch command {
-		case "exit":
-			os.Exit(0)
-		case "help":
-			fmt.Println("Welcome to the Pokedex!")
-			fmt.Println("=====================================")
-			fmt.Println("Available commands:")
-			fmt.Println("exit - exit the program")
-			fmt.Println("help - prints the available commands")
-		default:
-			fmt.Println("Unknown command:", command)
+		commandName := words[0]
+
+		command, exists := getCommands()[commandName]
+		if exists {
+			err := command.callback()
+			if err != nil {
+				fmt.Println(err)
+			}
+			continue
+		} else {
+			fmt.Println("Unknown command")
+			continue
 		}
-
 	}
 
+}
+
+type cliCommand struct {
+	name        string
+	description string
+	callback    func() error
+}
+
+func getCommands() map[string]cliCommand {
+	return map[string]cliCommand{
+		"help": {
+			name:        "help",
+			description: "Displays a help message",
+			callback:    commandHelp,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
+		},
+	}
 }
 
 func cleanInput(str string) []string {
