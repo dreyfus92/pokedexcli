@@ -6,6 +6,7 @@ func commandHelp() error {
 	fmt.Println()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("=====================================")
+	fmt.Println()
 	fmt.Println("Available commands:")
 	fmt.Println("Usage:")
 	fmt.Println()
