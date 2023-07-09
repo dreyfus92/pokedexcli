@@ -1,6 +1,8 @@
 
 <h1>Pokedex CLI Tool 🧰</h1
-#
+
+![pokedex](./assets/pokedex.gif)
+
 This is a command-line interface (CLI) tool written in Go that allows you to search for information about Pokemon using the PokeAPI. It is based on the boot.dev project structure.
 
 <h2>Installation 💾</h2>
