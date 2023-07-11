@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func mapForwardLoc(cfg *config) error {
+func mapForwardLoc(cfg *config, args ...string) error {
 	resp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
 	if err != nil {
 		return err
@@ -19,7 +19,7 @@ func mapForwardLoc(cfg *config) error {
 	return nil
 }
 
-func mapBackwardsLoc(cfg *config) error {
+func mapBackwardsLoc(cfg *config, args ...string) error {
 	if cfg.previousLocationAreaURL == nil {
 		return errors.New("You're already in the first page")
 	}
